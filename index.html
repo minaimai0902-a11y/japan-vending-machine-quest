@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japan Vending Machine Quest - Barcode Prototype</title>
+  <style>
+    :root{
+      --bg:#fff7f0;
+      --card:#ffffff;
+      --line:#ead7c8;
+      --text:#2b211b;
+      --muted:#6d5b50;
+      --accent:#ea4d2c;
+      --accent2:#ffb347;
+      --soft:#fff1e6;
+      --good:#1f8f56;
+      --blue:#3e7be0;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#fff7ef 0%,#fff 100%);
+      line-height:1.45;
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 60px;}
+    .hero{
+      background:linear-gradient(135deg,#fff1e5 0%,#fffaf6 100%);
+      border:2px solid var(--line);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 12px 28px rgba(0,0,0,.05);
+    }
+    .badge{display:inline-block;background:#ffe0d4;color:#8a2f1c;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px;margin-bottom:12px}
+    h1{margin:0 0 6px;font-size:clamp(28px,5vw,46px);line-height:1.03}
+    .sub{font-size:18px;margin:6px 0 14px}
+    .pillrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .pill{padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;font-size:14px;font-weight:700}
+    .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:20px}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+    h2{margin:0 0 10px;font-size:26px}
+    h3{margin:0 0 10px;font-size:20px}
+    .muted{color:var(--muted);font-size:14px}
+    .score{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .scorebox{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center}
+    .num{font-size:34px;font-weight:800;color:#c8371e}
+    .section-title{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:30px 0 14px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .drink{border:2px solid var(--line);border-radius:22px;background:#fff;padding:16px;transition:.18s ease;position:relative}
+    .drink.collected{border-color:#ff8f6f;background:#fff8f4;box-shadow:0 10px 22px rgba(234,77,44,.12)}
+    .drink img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#fffaf6;border:1px solid var(--line);border-radius:18px;padding:8px}
+    .type{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#8a5a44;margin-top:12px}
+    .drink h4{margin:6px 0;font-size:22px}
+    .points{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+    .pt{background:#fff4d4;border:1px solid #f2d692;color:#6f5500;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:700}
+    button,.btn{
+      appearance:none;border:none;border-radius:12px;padding:12px 14px;font-size:15px;
+      font-weight:800;cursor:pointer;background:var(--accent);color:white;text-decoration:none;display:inline-block
+    }
+    button.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .scanner-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    video{width:100%;background:#111;border-radius:16px;min-height:240px}
+    .scanbox{background:#fff9f5;border:1px dashed #d7b39c;border-radius:16px;padding:14px}
+    input[type=text]{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:16px}
+    .barcode-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+    .barcode-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}
+    .barcode-svg svg{max-width:100%;height:auto}
+    .route{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .stop{border:1px solid var(--line);background:#fff;border-radius:18px;padding:14px;text-align:center}
+    .stop.done{background:#fff2e8;border-color:#ffab91}
+    .footer-note{margin-top:28px;padding:18px;border-radius:18px;background:#fff7ef;border:1px solid var(--line);font-size:14px;color:#5b483f}
+    .hidden{display:none}
+    .toast{position:fixed;right:16px;bottom:16px;background:#2b211b;color:#fff;padding:14px 16px;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:.2s ease;max-width:330px;z-index:99}
+    .toast.show{opacity:1;transform:translateY(0)}
+    @media (max-width:900px){
+      .grid,.scanner-wrap{grid-template-columns:1fr}
+      .route{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="badge">Updated prototype · barcode collect mode</div>
+    <h1>JAPAN VENDING MACHINE QUEST</h1>
+    <div class="sub"><strong>Collect Japanese drinks by scanning their barcodes.</strong></div>
+    <p>
+      This version adds <strong>barcode-based collection</strong> and <strong>cute drink visuals</strong>.
+      Travelers can scan a bottle barcode, automatically collect the drink, and earn higher points
+      for hydration-friendly choices like <strong>I LOHAS</strong> and <strong>ion drinks</strong>.
+    </p>
+    <div class="pillrow">
+      <div class="pill">📷 Scan barcode → collect drink</div>
+      <div class="pill">💧 High points for water & ion drinks</div>
+      <div class="pill">🇯🇵 Travel game + hydration</div>
+      <div class="pill">📱 Browser prototype</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Your Collection</h2>
+      <p class="muted">Collect from the drink cards below, or scan a barcode.</p>
+      <div class="score">
+        <div class="scorebox"><div class="muted">Drink Points</div><div class="num" id="drinkScore">0</div></div>
+        <div class="scorebox"><div class="muted">Heat-Safe Bonus</div><div class="num" id="heatScore">0</div></div>
+        <div class="scorebox"><div class="muted">Drinks Collected</div><div class="num" id="countScore">0</div></div>
+      </div>
+      <div class="actions">
+        <button class="secondary" onclick="resetQuest()">Reset Prototype</button>
+        <button onclick="completeQuest()">See Completion Screen</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Why this is stronger</h2>
+      <ul>
+        <li>It feels like a <strong>real collection game</strong>, not just a survey.</li>
+        <li>Users can collect drinks by <strong>actual product interaction</strong>.</li>
+        <li>Hydration-friendly drinks get <strong>more points</strong>.</li>
+        <li>Travelers discover <strong>Japanese drink culture</strong>.</li>
+      </ul>
+      <p class="muted">
+        For the prototype, barcodes are <strong>sample demo barcodes</strong>. In a real implementation,
+        the database would be expanded to match actual products.
+      </p>
+    </section>
+  </div>
+
+  <div class="section-title">
+    <h2>Collect by Barcode</h2>
+    <div class="muted">Camera scan works best on HTTPS or localhost. Manual entry works anywhere.</div>
+  </div>
+
+  <section class="panel">
+    <div class="scanner-wrap">
+      <div>
+        <video id="video" playsinline muted></video>
+        <div class="actions">
+          <button onclick="startScanner()">Start Camera Scan</button>
+          <button class="secondary" onclick="stopScanner()">Stop</button>
+        </div>
+        <p class="muted" id="scanStatus">Scanner not started.</p>
+      </div>
+      <div class="scanbox">
+        <h3>Manual / fallback collect</h3>
+        <p class="muted">If camera scan does not work, enter a barcode manually.</p>
+        <input type="text" id="barcodeInput" placeholder="Enter barcode, e.g. 4901234567894" />
+        <div class="actions">
+          <button onclick="collectByManualCode()">Collect by Code</button>
+        </div>
+        <h3 style="margin-top:18px;">Demo barcode set</h3>
+        <p class="muted">These are sample codes for testing this prototype.</p>
+        <div class="barcode-list">
+          <div class="barcode-card">
+            <strong>I LOHAS</strong><br>
+            <span class="muted">4901234567894</span>
+            <div class="barcode-svg"><svg id="bc1"></svg></div>
+          </div>
+          <div class="barcode-card">
+            <strong>Ion Drink</strong><br>
+            <span class="muted">4901234567801</span>
+            <div class="barcode-svg"><svg id="bc2"></svg></div>
+          </div>
+          <div class="barcode-card">
+            <strong>Mugicha</strong><br>
+            <span class="muted">4901234567818</span>
+            <div class="barcode-svg"><svg id="bc3"></svg></div>
+          </div>
+          <div class="barcode-card">
+            <strong>Green Tea</strong><br>
+            <span class="muted">4901234567825</span>
+            <div class="barcode-svg"><svg id="bc4"></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-title">
+    <h2>Drink Collection</h2>
+    <div class="muted">Cute visuals added to the prototype</div>
+  </div>
+
+  <section class="cards">
+    <article class="drink" id="d1" data-name="I LOHAS" data-code="4901234567894" data-drink="3" data-heat="2">
+      <img src="i_lohas.svg" alt="Cute I LOHAS drink image" />
+      <div class="type">Natural water</div>
+      <h4>I LOHAS</h4>
+      <p class="muted">Japanese natural water. High hydration value and easy for travelers to understand.</p>
+      <div class="points"><span class="pt">Drink +3</span><span class="pt">Heat-Safe +2</span><span class="pt">Top pick</span></div>
+      <button onclick="collectDrink('d1')">Collect</button>
+    </article>
+
+    <article class="drink" id="d2" data-name="Ion Drink" data-code="4901234567801" data-drink="3" data-heat="2">
+      <img src="ion_drink.svg" alt="Cute ion drink image" />
+      <div class="type">Electrolyte drink</div>
+      <h4>Ion Drink</h4>
+      <p class="muted">A strong hot-weather choice. High point reward nudges users toward heat-safe behavior.</p>
+      <div class="points"><span class="pt">Drink +3</span><span class="pt">Heat-Safe +2</span><span class="pt">Hydration bonus</span></div>
+      <button onclick="collectDrink('d2')">Collect</button>
+    </article>
+
+    <article class="drink" id="d3" data-name="Mugicha" data-code="4901234567818" data-drink="3" data-heat="1">
+      <img src="mugicha.svg" alt="Cute mugicha image" />
+      <div class="type">Japanese summer classic</div>
+      <h4>Mugicha</h4>
+      <p class="muted">Barley tea gives strong “Japan discovery” value and fits the vending machine travel theme.</p>
+      <div class="points"><span class="pt">Drink +3</span><span class="pt">Heat-Safe +1</span><span class="pt">Japan classic</span></div>
+      <button onclick="collectDrink('d3')">Collect</button>
+    </article>
+
+    <article class="drink" id="d4" data-name="Green Tea" data-code="4901234567825" data-drink="2" data-heat="1">
+      <img src="green_tea.svg" alt="Cute green tea image" />
+      <div class="type">Tea discovery</div>
+      <h4>Green Tea</h4>
+      <p class="muted">Adds culture and discovery value to the game while keeping the collection fun.</p>
+      <div class="points"><span class="pt">Drink +2</span><span class="pt">Heat-Safe +1</span><span class="pt">Japan discovery</span></div>
+      <button onclick="collectDrink('d4')">Collect</button>
+    </article>
+  </section>
+
+  <div class="section-title">
+    <h2>Quest Flow Example</h2>
+    <div class="muted">Drink → Rest → Cool down → Continue</div>
+  </div>
+
+  <section class="panel">
+    <div class="route">
+      <div class="stop" id="s1"><strong>Stop 1</strong><br>I LOHAS<br><span class="muted">Hydrate</span></div>
+      <div class="stop" id="s2"><strong>Stop 2</strong><br>Indoor break<br><span class="muted">5 min rest</span></div>
+      <div class="stop" id="s3"><strong>Stop 3</strong><br>Ion Drink<br><span class="muted">Cool down</span></div>
+      <div class="stop" id="s4"><strong>Stop 4</strong><br>Body check<br><span class="muted">How do you feel?</span></div>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="completePanel">
+    <h2>Quest Complete!</h2>
+    <p><strong>You’re a Japan Drink Explorer.</strong></p>
+    <p>You collected drinks and built a safer sightseeing rhythm.</p>
+    <div class="pillrow">
+      <div class="pill">🏅 Hydration Master</div>
+      <div class="pill">🇯🇵 Japan Drink Explorer</div>
+      <div class="pill">☀️ Heat-Safe Traveler</div>
+    </div>
+  </section>
+
+  <div class="footer-note">
+    <strong>Prototype note:</strong> if you want real camera scanning, publish this on GitHub Pages / Netlify
+    or run it on localhost. The local file still works well for <strong>manual collect demos</strong> and
+    presentation mockups.
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script>
+const state = {
+  drink:0, heat:0, count:0, collected:new Set()
+};
+const drinkByCode = {
+  "4901234567894":"d1",
+  "4901234567801":"d2",
+  "4901234567818":"d3",
+  "4901234567825":"d4"
+};
+let scannerTimer = null;
+let stream = null;
+
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function updateUI(){
+  document.getElementById('drinkScore').textContent = state.drink;
+  document.getElementById('heatScore').textContent = state.heat;
+  document.getElementById('countScore').textContent = state.count;
+  document.getElementById('s1').classList.toggle('done', state.collected.has('d1'));
+  document.getElementById('s3').classList.toggle('done', state.collected.has('d2'));
+}
+
+function collectDrink(id){
+  if(state.collected.has(id)){
+    showToast('Already collected.');
+    return;
+  }
+  const el = document.getElementById(id);
+  const drinkPts = Number(el.dataset.drink);
+  const heatPts = Number(el.dataset.heat);
+  const name = el.dataset.name;
+  state.drink += drinkPts;
+  state.heat += heatPts;
+  state.count += 1;
+  state.collected.add(id);
+  el.classList.add('collected');
+  const btn = el.querySelector('button');
+  btn.textContent = 'Collected';
+  btn.disabled = true;
+  updateUI();
+  showToast(`${name} collected! +${drinkPts} Drink / +${heatPts} Heat-Safe`);
+}
+
+function collectByCode(code){
+  const trimmed = (code || '').trim();
+  const id = drinkByCode[trimmed];
+  if(!id){
+    showToast('Unknown barcode in this prototype.');
+    return false;
+  }
+  collectDrink(id);
+  return true;
+}
+
+function collectByManualCode(){
+  const val = document.getElementById('barcodeInput').value;
+  collectByCode(val);
+}
+
+function resetQuest(){
+  state.drink = 0; state.heat = 0; state.count = 0; state.collected = new Set();
+  document.querySelectorAll('.drink').forEach(el => {
+    el.classList.remove('collected');
+    const btn = el.querySelector('button');
+    btn.disabled = false;
+    btn.textContent = 'Collect';
+  });
+  document.getElementById('completePanel').classList.add('hidden');
+  updateUI();
+  showToast('Prototype reset.');
+}
+
+function completeQuest(){
+  document.getElementById('completePanel').classList.remove('hidden');
+  window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+  showToast('Completion screen opened.');
+}
+
+async function startScanner(){
+  const status = document.getElementById('scanStatus');
+  if (!('BarcodeDetector' in window)) {
+    status.textContent = 'BarcodeDetector is not supported on this browser. Use manual entry.';
+    showToast('This browser does not support camera barcode scan.');
+    return;
+  }
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    const video = document.getElementById('video');
+    video.srcObject = stream;
+    await video.play();
+    status.textContent = 'Camera active. Point at a barcode.';
+    const detector = new BarcodeDetector({formats:['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128']});
+    scannerTimer = setInterval(async () => {
+      try {
+        const barcodes = await detector.detect(video);
+        if (barcodes.length > 0) {
+          const raw = barcodes[0].rawValue;
+          status.textContent = 'Scanned: ' + raw;
+          const success = collectByCode(raw);
+          if (success) {
+            stopScanner();
+          }
+        }
+      } catch(err) {
+        status.textContent = 'Scanning...';
+      }
+    }, 800);
+  } catch(err) {
+    status.textContent = 'Could not start camera. Use manual entry or publish on HTTPS.';
+    showToast('Camera access failed.');
+  }
+}
+
+function stopScanner(){
+  const status = document.getElementById('scanStatus');
+  if(scannerTimer) {
+    clearInterval(scannerTimer);
+    scannerTimer = null;
+  }
+  const video = document.getElementById('video');
+  if(stream){
+    stream.getTracks().forEach(t => t.stop());
+    stream = null;
+  }
+  video.srcObject = null;
+  status.textContent = 'Scanner stopped.';
+}
+
+function drawBarcodes(){
+  if(typeof JsBarcode === 'undefined') return;
+  JsBarcode("#bc1", "4901234567894", {format:"EAN13", displayValue:true, width:1.5, height:50, margin:0});
+  JsBarcode("#bc2", "4901234567801", {format:"EAN13", displayValue:true, width:1.5, height:50, margin:0});
+  JsBarcode("#bc3", "4901234567818", {format:"EAN13", displayValue:true, width:1.5, height:50, margin:0});
+  JsBarcode("#bc4", "4901234567825", {format:"EAN13", displayValue:true, width:1.5, height:50, margin:0});
+}
+
+drawBarcodes();
+updateUI();
+</script>
+</body>
+</html>
