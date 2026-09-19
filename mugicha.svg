@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300">
+  <rect width="240" height="300" rx="28" fill="#fff7eb"/>
+  <ellipse cx="120" cy="264" rx="60" ry="12" fill="#eadac6"/>
+  <rect x="104" y="30" width="32" height="24" rx="8" fill="#d0a26c"/>
+  <rect x="92" y="48" width="56" height="176" rx="26" fill="#fffefa" stroke="#eadfc9" stroke-width="3"/>
+  <rect x="98" y="94" width="44" height="60" rx="18" fill="#f2d4aa" stroke="#d8b17d"/>
+  <path d="M108 136 C110 120,112 108,118 102 C121 110,123 123,122 136" fill="#8f5e2f"/>
+  <path d="M124 136 C126 118,128 109,133 104 C135 114,136 124,136 136" fill="#a06a38"/>
+  <text x="120" y="175" font-size="16" text-anchor="middle" fill="#8c5a2d" font-family="Arial" font-weight="700">MUGICHA</text>
+  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#8f6136" font-family="Arial" font-weight="700">Barley Tea</text>
+</svg>
