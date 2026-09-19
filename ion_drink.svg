@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300">
+  <rect width="240" height="300" rx="28" fill="#eef5ff"/>
+  <ellipse cx="120" cy="264" rx="60" ry="12" fill="#d8deef"/>
+  <rect x="104" y="30" width="32" height="24" rx="8" fill="#6ba2ff"/>
+  <rect x="92" y="48" width="56" height="176" rx="26" fill="#ffffff" stroke="#d8e4ff" stroke-width="3"/>
+  <rect x="96" y="96" width="48" height="40" rx="10" fill="#2d6cdf"/>
+  <text x="120" y="120" font-size="17" text-anchor="middle" fill="#ffffff" font-family="Arial" font-weight="700">ION</text>
+  <path d="M120 150 L132 175 L120 170 L108 175 Z" fill="#ffb200"/>
+  <text x="120" y="194" font-size="14" text-anchor="middle" fill="#2d6cdf" font-family="Arial" font-weight="700">ELECTROLYTE</text>
+  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#2757b5" font-family="Arial" font-weight="700">Ion Drink</text>
+</svg>
