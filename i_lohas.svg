@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f7fff9"/>
+      <stop offset="100%" stop-color="#e8fff0"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="300" rx="28" fill="url(#bg)"/>
+  <ellipse cx="120" cy="264" rx="60" ry="12" fill="#d8e7dd"/>
+  <rect x="104" y="30" width="32" height="24" rx="8" fill="#93d2a3"/>
+  <rect x="92" y="48" width="56" height="176" rx="26" fill="#ffffff" stroke="#dce9df" stroke-width="3"/>
+  <rect x="98" y="86" width="44" height="72" rx="20" fill="#e7fff0" stroke="#b8e5c5"/>
+  <circle cx="120" cy="122" r="16" fill="#71c58f"/>
+  <path d="M120 106 C128 116,128 128,120 138 C112 128,112 116,120 106Z" fill="#ffffff"/>
+  <text x="120" y="174" font-size="16" text-anchor="middle" fill="#53a76d" font-family="Arial" font-weight="700">I LOHAS</text>
+  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#46885a" font-family="Arial" font-weight="700">Natural Water</text>
+</svg>
