@@ -13,5 +13,9 @@
   <circle cx="120" cy="122" r="16" fill="#71c58f"/>
   <path d="M120 106 C128 116,128 128,120 138 C112 128,112 116,120 106Z" fill="#ffffff"/>
   <text x="120" y="174" font-size="16" text-anchor="middle" fill="#53a76d" font-family="Arial" font-weight="700">I LOHAS</text>
-  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#46885a" font-family="Arial" font-weight="700">Natural Water</text>
+  <path d="M89 73 Q120 57 151 73" fill="none" stroke="#ff5c70" stroke-width="9"/>
+  <circle cx="107" cy="190" r="4.5" fill="#49365e"/><circle cx="133" cy="190" r="4.5" fill="#49365e"/>
+  <path d="M111 202 Q120 211 129 202" fill="none" stroke="#49365e" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="99" cy="200" r="6" fill="#ffb5bc" opacity=".7"/><circle cx="141" cy="200" r="6" fill="#ffb5bc" opacity=".7"/>
+  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#46885a" font-family="Arial" font-weight="700">Mizu-chan</text>
 </svg>
