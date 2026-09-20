@@ -7,5 +7,8 @@
   <path d="M108 136 C110 120,112 108,118 102 C121 110,123 123,122 136" fill="#8f5e2f"/>
   <path d="M124 136 C126 118,128 109,133 104 C135 114,136 124,136 136" fill="#a06a38"/>
   <text x="120" y="175" font-size="16" text-anchor="middle" fill="#8c5a2d" font-family="Arial" font-weight="700">MUGICHA</text>
-  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#8f6136" font-family="Arial" font-weight="700">Barley Tea</text>
+  <path d="M89 73 Q120 57 151 73" fill="none" stroke="#ff5c70" stroke-width="9"/>
+  <circle cx="107" cy="194" r="4.5" fill="#49365e"/><circle cx="133" cy="194" r="4.5" fill="#49365e"/>
+  <path d="M111 205 Q120 214 129 205" fill="none" stroke="#49365e" stroke-width="4" stroke-linecap="round"/>
+  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#8f6136" font-family="Arial" font-weight="700">Mugi-chan</text>
 </svg>
