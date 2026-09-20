@@ -7,5 +7,8 @@
   <text x="120" y="120" font-size="17" text-anchor="middle" fill="#ffffff" font-family="Arial" font-weight="700">ION</text>
   <path d="M120 150 L132 175 L120 170 L108 175 Z" fill="#ffb200"/>
   <text x="120" y="194" font-size="14" text-anchor="middle" fill="#2d6cdf" font-family="Arial" font-weight="700">ELECTROLYTE</text>
-  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#2757b5" font-family="Arial" font-weight="700">Ion Drink</text>
+  <path d="M89 73 Q120 57 151 73" fill="none" stroke="#ffbf3f" stroke-width="9"/>
+  <circle cx="107" cy="211" r="4.5" fill="#49365e"/><circle cx="133" cy="211" r="4.5" fill="#49365e"/>
+  <path d="M112 221 Q120 228 128 221" fill="none" stroke="#49365e" stroke-width="4" stroke-linecap="round"/>
+  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#2757b5" font-family="Arial" font-weight="700">Ion-kun</text>
 </svg>
