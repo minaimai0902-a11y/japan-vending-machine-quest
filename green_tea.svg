@@ -7,5 +7,8 @@
   <path d="M120 110 C140 110,142 132,120 148 C98 132,100 110,120 110Z" fill="#49a85a"/>
   <path d="M120 110 C124 116,126 124,120 148" stroke="#ffffff" stroke-width="3" fill="none"/>
   <text x="120" y="176" font-size="16" text-anchor="middle" fill="#3e8a4a" font-family="Arial" font-weight="700">GREEN TEA</text>
-  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#3b7f45" font-family="Arial" font-weight="700">Oi Ocha style</text>
+  <path d="M89 73 Q120 57 151 73" fill="none" stroke="#ffbf3f" stroke-width="9"/>
+  <circle cx="107" cy="194" r="4.5" fill="#49365e"/><circle cx="133" cy="194" r="4.5" fill="#49365e"/>
+  <path d="M111 205 Q120 212 129 205" fill="none" stroke="#49365e" stroke-width="4" stroke-linecap="round"/>
+  <text x="120" y="258" font-size="18" text-anchor="middle" fill="#3b7f45" font-family="Arial" font-weight="700">Ocha-san</text>
 </svg>
